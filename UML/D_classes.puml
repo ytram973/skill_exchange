@@ -1,0 +1,50 @@
+@startuml
+
+
+class User {
+  + id: int
+  + username: str
+  + email: str
+  + password: str
+}
+
+class Skill {
+  + id: int
+  + name: str
+  + description: str
+  --
+  + __str__(): str
+}
+
+class UserSkill {
+  + id: int
+  --
+  + __str__(): str
+}
+
+class HelpRequest {
+  + id: int
+  + activity_description: str
+  + date: date
+  + is_taken: bool
+  + created_at: datetime
+  --
+  + __str__(): str
+}
+
+class HelpOffer {
+  + id: int
+  + created_at: datetime
+  --
+  + __str__(): str
+}
+
+User "1" --> "0..*" UserSkill 
+Skill "1" --> "0..*" UserSkill 
+
+User "1" --> "0..*" HelpRequest 
+Skill "1" --> "0..*" HelpRequest 
+
+User "1" --> "0..*" HelpOffer 
+HelpRequest "1" --> "1" HelpOffer 
+@enduml
