@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+
+
+actor "Visiteur" as Visitor
+actor "User(connecté)" as User #Violet
+actor "Admin" as Admin #Blue
+
+
+rectangle "Skill Exchange" {
+  usecase "Voir les créneaux\nd'aide acceptés" as UC1
+  usecase "Voir la liste\ndes compétences" as UC2
+  usecase "Se connecter /\nS'inscrire" as UC3 #Violet
+  usecase "Gérer mes\ncompétences" as UC4 #Violet
+  usecase "Créer une\ndemande d'aide" as UC5 #Violet
+  usecase "Voir demandes qui\nmatchent mes skills" as UC6 #Violet
+  usecase "Proposer\nmon aide" as UC7 #Violet
+  usecase "Gérer les\ncompétences" as UC8 #Blue
+  usecase "Gérer les\nutilisateurs" as UC9 #Blue
+}
+
+Visitor --> UC1
+Visitor --> UC2
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+
+UC7 .> UC6 : <<extend>>
+
+Admin --> UC8
+Admin --> UC9
+@enduml
