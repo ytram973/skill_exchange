@@ -1,0 +1,29 @@
+{% extends "exchange/base.html" %}
+
+{% block title %}Compétences – SkillSwap{% endblock %}
+
+{% block content %}
+<h1>Compétences disponibles</h1>
+
+{% if skills %}
+<table border="1">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for skill in skills %}
+        <tr>
+            <td>{{ skill.name }}</td>
+            <td>{{ skill.description }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Aucune compétence disponible pour le moment.</p>
+{% endif %}
+
+{% endblock %}
