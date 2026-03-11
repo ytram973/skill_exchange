@@ -1,0 +1,70 @@
+{% extends "exchange/base.html" %}
+
+{% block title %}Mes compétences – SkillSwap{% endblock %}
+
+{% block content %}
+<h1>Mes compétences</h1>
+
+{% if owned %}
+<table border="1">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for skill in owned %}
+        <tr>
+            <td>{{ skill.name }}</td>
+            <td>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="skill_id" value="{{ skill.id }}">
+                    <input type="hidden" name="action" value="remove">
+                    <button type="submit">Retirer</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Vous n'avez aucune compétence pour le moment.</p>
+{% endif %}
+
+<hr>
+
+<h2>Ajouter une compétence</h2>
+
+{% if available %}
+<table border="1">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for skill in available %}
+        <tr>
+            <td>{{ skill.name }}</td>
+            <td>{{ skill.description }}</td>
+            <td>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="skill_id" value="{{ skill.id }}">
+                    <input type="hidden" name="action" value="add">
+                    <button type="submit">Ajouter</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Vous possédez déjà toutes les compétences disponibles.</p>
+{% endif %}
+
+{% endblock %}
