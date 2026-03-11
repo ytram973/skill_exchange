@@ -33,3 +33,27 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         return ctx
 
 
+class MySkillsView(LoginRequiredMixin, TemplateView):
+    template_name = "exchange/my_skills.html"
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        my_skill_ids = UserSkill.objects.filter(user=self.request.user).values_list("skill_id", flat=True)
+        ctx["owned"] = Skill.objects.filter(id__in=my_skill_ids)
+        ctx["available"] = Skill.objects.exclude(id__in=my_skill_ids)
+        return ctx
+
+    def post(self, request, *args, **kwargs):
+        skill_id = request.POST.get("skill_id")
+        action = request.POST.get("action")
+        skill = get_object_or_404(Skill, id=skill_id)
+
+        if action == "add":
+            UserSkill.objects.get_or_create(user=request.user, skill=skill)
+            messages.success(request, f"Compétence « {skill.name} » ajoutée.")
+        elif action == "remove":
+            UserSkill.objects.filter(user=request.user, skill=skill).delete()
+            messages.success(request, f"Compétence « {skill.name} » retirée.")
+        return redirect("my_skills")
+
+
