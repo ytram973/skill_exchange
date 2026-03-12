@@ -1,0 +1,42 @@
+{% extends "exchange/base.html" %}
+
+{% block title %}Demandes disponibles – SkillSwap{% endblock %}
+
+{% block content %}
+<h1>Demandes d'aide disponibles</h1>
+
+{% if requests %}
+<table border="1">
+    <thead>
+        <tr>
+            <th>Compétence</th>
+            <th>Activité</th>
+            <th>Date</th>
+            <th>Demandeur</th>
+            <th>Contact</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for req in requests %}
+        <tr>
+            <td>{{ req.skill_needed.name }}</td>
+            <td>{{ req.activity_description }}</td>
+            <td>{{ req.date }}</td>
+            <td>{{ req.requester.first_name }} {{ req.requester.last_name }}</td>
+            <td>{{ req.requester.email }}</td>
+            <td>
+                <a href="{% url 'make_offer' req.id %}">Je propose mon aide</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Aucune demande ne correspond à vos compétences pour le moment.</p>
+{% endif %}
+
+<br>
+<a href="{% url 'dashboard' %}">Retour au tableau de bord</a>
+
+{% endblock %}

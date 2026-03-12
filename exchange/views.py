@@ -75,3 +75,13 @@ class HelpRequestCreateView(LoginRequiredMixin, TemplateView):
         return redirect("dashboard")
 
 
+class HelpRequestListView(LoginRequiredMixin, ListView):
+    template_name = "exchange/help_request_list.html"
+    context_object_name = "requests"
+
+    def get_queryset(self):
+        my_skill_ids = UserSkill.objects.filter(user=self.request.user).values_list("skill_id", flat=True)
+        return HelpRequest.objects.filter(skill_needed__in=my_skill_ids,is_taken=False,
+        ).exclude(requester=self.request.user).order_by("date")
+
+
