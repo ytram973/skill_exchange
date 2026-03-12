@@ -3,78 +3,91 @@
 {% block title %}Mon espace – SkillSwap{% endblock %}
 
 {% block content %}
-<h1>Bonjour {{ user.username }}</h1>
+
+<h1 class="mb-4">Bonjour <span style="color:#b57bee;">{{ user.username }}</span></h1>
+
+<div class="d-flex gap-3 mb-4">
+    <a href="{% url 'my_skills' %}" class="btn btn-primary">Gérer mes compétences</a>
+    <a href="{% url 'help_request_create' %}" class="btn btn-success">Créer une demande</a>
+    <a href="{% url 'help_request_list' %}" class="btn btn-success">Voir les demandes disponibles</a>
+</div>
 
 <hr>
 
-<h2>Mes demandes d'aide</h2>
+<h2 class="mb-3">Mes demandes d'aide</h2>
+
 {% if my_requests %}
-<table border="1">
-    <thead>
-        <tr>
-            <th>Compétence</th>
-            <th>Activité</th>
-            <th>Date</th>
-            <th>Statut</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for req in my_requests %}
-        <tr>
-            <td>{{ req.skill_needed.name }}</td>
-            <td>{{ req.activity_description }}</td>
-            <td>{{ req.date }}</td>
-            <td>
-                {% if req.is_taken %}
-                    Pris en charge
-                {% else %}
-                    En attente
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="card mb-4">
+    <div class="card-header">Demandes</div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Compétence</th>
+                    <th>Activité</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in my_requests %}
+                <tr>
+                    <td>{{ req.skill_needed.name }}</td>
+                    <td>{{ req.activity_description }}</td>
+                    <td>{{ req.date }}</td>
+                    <td>
+                        {% if req.is_taken %}
+                            <span class="badge-taken">Pris en charge</span>
+                        {% else %}
+                            <span class="badge-waiting">En attente</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% else %}
-<p>Vous n'avez pas encore fait de demande. <a href="{% url 'help_request_create' %}">Créer une demande</a></p>
+<p style="color:#c9b3f5;">Vous n'avez pas encore fait de demande. <a href="{% url 'help_request_create' %}">Créer une demande</a></p>
 {% endif %}
 
 <hr>
 
-<h2>Mes offres d'aide</h2>
+<h2 class="mb-3">Mes offres d'aide</h2>
+
 {% if my_offers %}
-<table border="1">
-    <thead>
-        <tr>
-            <th>Competence</th>
-            <th>Activite</th>
-            <th>Date</th>
-            <th>Contact demandeur</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for offer in my_offers %}
-        <tr>
-            <td>{{ offer.help_request.skill_needed.name }}</td>
-            <td>{{ offer.help_request.activity_description }}</td>
-            <td>{{ offer.help_request.date }}</td>
-            <td>{{ offer.help_request.requester.first_name }} {{ offer.help_request.requester.last_name }} - {{ offer.help_request.requester.email }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="card mb-4">
+    <div class="card-header">Offres</div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Compétence</th>
+                    <th>Activité</th>
+                    <th>Date</th>
+                    <th>Contact demandeur</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for offer in my_offers %}
+                <tr>
+                    <td>{{ offer.help_request.skill_needed.name }}</td>
+                    <td>{{ offer.help_request.activity_description }}</td>
+                    <td>{{ offer.help_request.date }}</td>
+                    <td>
+                        {{ offer.help_request.requester.first_name }}
+                        {{ offer.help_request.requester.last_name }}
+                        – {{ offer.help_request.requester.email }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% else %}
-<p>Vous n'avez pas encore propose d'aide.</p>
+<p style="color:#c9b3f5;">Vous n'avez pas encore proposé d'aide.</p>
 {% endif %}
-
-<hr>
-
-<p>
-    <a href="{% url 'my_skills' %}">Gerer mes competences</a>
-    |
-    <a href="{% url 'help_request_create' %}">Creer une demande</a>
-    |
-    <a href="{% url 'help_request_list' %}">Voir les demandes disponibles</a>
-</p>
 
 {% endblock %}
