@@ -3,40 +3,45 @@
 {% block title %}Demandes disponibles – SkillSwap{% endblock %}
 
 {% block content %}
-<h1>Demandes d'aide disponibles</h1>
+
+<h1 class="mb-4">Demandes d'aide disponibles</h1>
 
 {% if requests %}
-<table border="1">
-    <thead>
-        <tr>
-            <th>Compétence</th>
-            <th>Activité</th>
-            <th>Date</th>
-            <th>Demandeur</th>
-            <th>Contact</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for req in requests %}
-        <tr>
-            <td>{{ req.skill_needed.name }}</td>
-            <td>{{ req.activity_description }}</td>
-            <td>{{ req.date }}</td>
-            <td>{{ req.requester.first_name }} {{ req.requester.last_name }}</td>
-            <td>{{ req.requester.email }}</td>
-            <td>
-                <a href="{% url 'make_offer' req.id %}">Je propose mon aide</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="card mb-4">
+    <div class="card-header">Demandes qui correspondent à vos compétences</div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Compétence</th>
+                    <th>Activité</th>
+                    <th>Date</th>
+                    <th>Demandeur</th>
+                    <th>Contact</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td>{{ req.skill_needed.name }}</td>
+                    <td>{{ req.activity_description }}</td>
+                    <td>{{ req.date }}</td>
+                    <td>{{ req.requester.first_name }} {{ req.requester.last_name }}</td>
+                    <td>{{ req.requester.email }}</td>
+                    <td>
+                        <a href="{% url 'make_offer' req.id %}" class="btn btn-primary btn-sm">Je propose mon aide</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% else %}
-<p>Aucune demande ne correspond à vos compétences pour le moment.</p>
+<p style="color:#c9b3f5;">Aucune demande ne correspond à vos compétences pour le moment.</p>
 {% endif %}
 
-<br>
-<a href="{% url 'dashboard' %}">Retour au tableau de bord</a>
+<a href="{% url 'dashboard' %}" class="btn btn-success">Retour au tableau de bord</a>
 
 {% endblock %}
