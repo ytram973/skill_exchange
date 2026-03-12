@@ -85,3 +85,17 @@ class HelpRequestListView(LoginRequiredMixin, ListView):
         ).exclude(requester=self.request.user).order_by("date")
 
 
+class MakeOfferView(LoginRequiredMixin, TemplateView):
+
+    def get(self, request, pk, *args, **kwargs):
+        help_request = get_object_or_404(HelpRequest, pk=pk, is_taken=False)
+
+        if help_request.requester == request.user:
+            messages.error(request, "Vous ne pouvez pas répondre à votre propre demande.")
+            return redirect("help_request_list")
+
+        HelpOffer.objects.create(helper=request.user, help_request=help_request)
+        help_request.is_taken = True
+        help_request.save()
+        messages.success(request, "Votre offre a été enregistrée !")
+        return redirect("dashboard")
