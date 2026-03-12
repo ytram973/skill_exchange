@@ -3,12 +3,29 @@
 {% block title %}Connexion – SkillSwap{% endblock %}
 
 {% block content %}
-<h1>Connexion</h1>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Se connecter</button>
-</form>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header text-center">Connexion</div>
+            <div class="card-body p-4">
+                <h1 class="text-center mb-4" style="font-size:1.5rem;">Bienvenue sur <span style="color:#b57bee;">SkillSwap</span></h1>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label" style="color:#c9b3f5;">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div style="color:#fca5a5; font-size:0.85rem;">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary w-100 mt-2">Se connecter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
