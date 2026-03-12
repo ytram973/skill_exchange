@@ -3,32 +3,45 @@
 {% block title %}Accueil – SkillSwap{% endblock %}
 
 {% block content %}
-<h1>Bienvenue sur SkillSwap</h1>
-<p>Échangez vos compétences avec des personnes près de vous.</p>
 
-<h2>Prochains créneaux d'aide acceptés</h2>
+<div class="text-center py-5">
+    <h1 class="display-4 fw-bold">Bienvenue sur <span style="color:#b57bee;">SkillSwap</span></h1>
+    <p class="lead" style="color:#c9b3f5;">Échangez vos compétences avec des personnes près de vous.</p>
+    {% if not user.is_authenticated %}
+        <a href="{% url 'login' %}" class="btn btn-primary mt-2">Commencer</a>
+    {% endif %}
+</div>
+
+<hr>
+
+<h2 class="mb-4">Prochains créneaux d'aide acceptés</h2>
 
 {% if offers %}
-<table border="1">
-    <thead>
-        <tr>
-            <th>Compétence</th>
-            <th>Activité</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for offer in offers %}
-        <tr>
-            <td>{{ offer.help_request.skill_needed.name }}</td>
-            <td>{{ offer.help_request.activity_description }}</td>
-            <td>{{ offer.help_request.date }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="card">
+    <div class="card-header">Créneaux récents</div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Compétence</th>
+                    <th>Activité</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for offer in offers %}
+                <tr>
+                    <td>{{ offer.help_request.skill_needed.name }}</td>
+                    <td>{{ offer.help_request.activity_description }}</td>
+                    <td>{{ offer.help_request.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% else %}
-<p>Aucun créneau pour le moment.</p>
+<p style="color:#c9b3f5;">Aucun créneau pour le moment.</p>
 {% endif %}
 
 {% endblock %}
