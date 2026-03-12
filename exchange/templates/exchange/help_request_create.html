@@ -3,38 +3,49 @@
 {% block title %}Créer une demande – SkillSwap{% endblock %}
 
 {% block content %}
-<h1>Créer une demande d'aide</h1>
 
-{% if skills %}
-<form method="post">
-    {% csrf_token %}
+<div class="row justify-content-center mt-3">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Créer une demande d'aide</div>
+            <div class="card-body p-4">
 
-    <label for="skill_id">Compétence recherchée :</label>
-    <select name="skill_id" id="skill_id">
-        {% for skill in skills %}
-        <option value="{{ skill.id }}">{{ skill.name }}</option>
-        {% endfor %}
-    </select>
+                {% if skills %}
+                <form method="post">
+                    {% csrf_token %}
 
-    <br><br>
+                    <div class="mb-3">
+                        <label for="skill_id" class="form-label" style="color:#c9b3f5;">Compétence recherchée</label>
+                        <select name="skill_id" id="skill_id" class="form-select">
+                            {% for skill in skills %}
+                            <option value="{{ skill.id }}">{{ skill.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-    <label for="description">Description de l'activité :</label><br>
-    <textarea name="description" id="description" rows="4" cols="40"></textarea>
+                    <div class="mb-3">
+                        <label for="description" class="form-label" style="color:#c9b3f5;">Description de l'activité</label>
+                        <textarea name="description" id="description" rows="4" class="form-control"></textarea>
+                    </div>
 
-    <br><br>
+                    <div class="mb-3">
+                        <label for="date" class="form-label" style="color:#c9b3f5;">Date souhaitée</label>
+                        <input type="date" name="date" id="date" class="form-control">
+                    </div>
 
-    <label for="date">Date souhaitée :</label>
-    <input type="date" name="date" id="date">
+                    <button type="submit" class="btn btn-primary w-100">Envoyer la demande</button>
+                </form>
+                {% else %}
+                <p style="color:#c9b3f5;">Vous possédez déjà toutes les compétences disponibles, vous ne pouvez pas faire de demande.</p>
+                {% endif %}
 
-    <br><br>
+                <div class="mt-3">
+                    <a href="{% url 'dashboard' %}" class="btn btn-success w-100">Retour au tableau de bord</a>
+                </div>
 
-    <button type="submit">Envoyer la demande</button>
-</form>
-{% else %}
-<p>Vous possédez déjà toutes les compétences disponibles, vous ne pouvez pas faire de demande.</p>
-{% endif %}
-
-<br>
-<a href="{% url 'dashboard' %}">Retour au tableau de bord</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
