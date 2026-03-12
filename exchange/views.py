@@ -57,3 +57,21 @@ class MySkillsView(LoginRequiredMixin, TemplateView):
         return redirect("my_skills")
 
 
+class HelpRequestCreateView(LoginRequiredMixin, TemplateView):
+    template_name = "exchange/help_request_create.html"
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        my_skill_ids = UserSkill.objects.filter(user=self.request.user).values_list("skill_id", flat=True)
+        ctx["skills"] = Skill.objects.exclude(id__in=my_skill_ids)
+        return ctx
+
+    def post(self, request, *args, **kwargs):
+        skill = get_object_or_404(Skill, id=request.POST.get("skill_id"))
+        HelpRequest.objects.create(requester=request.user,skill_needed=skill,activity_description=request.POST.get("description"),
+            date=request.POST.get("date"),
+        )
+        messages.success(request, "Demande créée avec succès.")
+        return redirect("dashboard")
+
+

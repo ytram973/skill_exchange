@@ -1,0 +1,40 @@
+{% extends "exchange/base.html" %}
+
+{% block title %}Créer une demande – SkillSwap{% endblock %}
+
+{% block content %}
+<h1>Créer une demande d'aide</h1>
+
+{% if skills %}
+<form method="post">
+    {% csrf_token %}
+
+    <label for="skill_id">Compétence recherchée :</label>
+    <select name="skill_id" id="skill_id">
+        {% for skill in skills %}
+        <option value="{{ skill.id }}">{{ skill.name }}</option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
+    <label for="description">Description de l'activité :</label><br>
+    <textarea name="description" id="description" rows="4" cols="40"></textarea>
+
+    <br><br>
+
+    <label for="date">Date souhaitée :</label>
+    <input type="date" name="date" id="date">
+
+    <br><br>
+
+    <button type="submit">Envoyer la demande</button>
+</form>
+{% else %}
+<p>Vous possédez déjà toutes les compétences disponibles, vous ne pouvez pas faire de demande.</p>
+{% endif %}
+
+<br>
+<a href="{% url 'dashboard' %}">Retour au tableau de bord</a>
+
+{% endblock %}
