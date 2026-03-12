@@ -3,27 +3,33 @@
 {% block title %}Compétences – SkillSwap{% endblock %}
 
 {% block content %}
-<h1>Compétences disponibles</h1>
+
+<h1 class="mb-4">Compétences disponibles</h1>
 
 {% if skills %}
-<table border="1">
-    <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for skill in skills %}
-        <tr>
-            <td>{{ skill.name }}</td>
-            <td>{{ skill.description }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="card">
+    <div class="card-header">Liste des compétences</div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for skill in skills %}
+                <tr>
+                    <td>{{ skill.name }}</td>
+                    <td>{{ skill.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% else %}
-<p>Aucune compétence disponible pour le moment.</p>
+<p style="color:#c9b3f5;">Aucune compétence disponible pour le moment.</p>
 {% endif %}
 
 {% endblock %}
